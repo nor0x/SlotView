@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sv="clr-namespace:SlotView.MAUI"
+             BackgroundColor="LightGreen"
+             x:Class="SlotView.MAUI.MainPage">
+    <VerticalStackLayout>
+
+        <Grid>
+    <sv:SlotView x:Name="mySlotView" WidthRequest="400"
+                 HeightRequest="400" />
+    <Button Text="Start" VerticalOptions="End" HorizontalOptions="Start" Clicked="StartButton_Clicked" />
+    <Button Text="Pause" VerticalOptions="End" HorizontalOptions="Center" Clicked="PauseButton_Clicked"  />
+    <Button Text="Stop" VerticalOptions="End" HorizontalOptions="End" Clicked="StopButton_Clicked"  />
+
+</Grid>
+
+        <Grid>
+            <sv:GraphicsSlotView x:Name="myGraphicsSlotView" WidthRequest="400"
+                 HeightRequest="400">
+                <sv:GraphicsSlotView.Images>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>octocat0.png</x:String>
+                        <x:String>octocat1.png</x:String>
+                        <x:String>octocat2.png</x:String>
+                        <x:String>octocat3.png</x:String>
+                        <x:String>octocat4.png</x:String>
+                        <x:String>octocat5.png</x:String>
+                        <x:String>octocat6.png</x:String>
+                    </x:Array>
+                </sv:GraphicsSlotView.Images>
+            </sv:GraphicsSlotView>
+            <Button Text="Start" VerticalOptions="End" HorizontalOptions="Start" Clicked="GraphicsStartButton_Clicked" />
+            <Button Text="Pause" VerticalOptions="End" HorizontalOptions="Center" Clicked="GraphicsPauseButton_Clicked"  />
+            <Button Text="Stop" VerticalOptions="End" HorizontalOptions="End" Clicked="GraphicsStopButton_Clicked"  />
+
+        </Grid>
+</VerticalStackLayout>
+
+</ContentPage>
+
