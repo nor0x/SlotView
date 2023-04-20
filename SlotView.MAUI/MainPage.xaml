@@ -4,38 +4,32 @@
              xmlns:sv="clr-namespace:SlotView.MAUI"
              BackgroundColor="LightGreen"
              x:Class="SlotView.MAUI.MainPage">
-    <VerticalStackLayout>
-
-        <Grid>
-    <sv:SlotView x:Name="mySlotView" WidthRequest="400"
-                 HeightRequest="400" />
-    <Button Text="Start" VerticalOptions="End" HorizontalOptions="Start" Clicked="StartButton_Clicked" />
-    <Button Text="Pause" VerticalOptions="End" HorizontalOptions="Center" Clicked="PauseButton_Clicked"  />
-    <Button Text="Stop" VerticalOptions="End" HorizontalOptions="End" Clicked="StopButton_Clicked"  />
-
-</Grid>
-
-        <Grid>
-            <sv:GraphicsSlotView x:Name="myGraphicsSlotView" WidthRequest="400"
-                 HeightRequest="400">
-                <sv:GraphicsSlotView.Images>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>octocat0.png</x:String>
-                        <x:String>octocat1.png</x:String>
-                        <x:String>octocat2.png</x:String>
-                        <x:String>octocat3.png</x:String>
-                        <x:String>octocat4.png</x:String>
-                        <x:String>octocat5.png</x:String>
-                        <x:String>octocat6.png</x:String>
-                    </x:Array>
-                </sv:GraphicsSlotView.Images>
-            </sv:GraphicsSlotView>
-            <Button Text="Start" VerticalOptions="End" HorizontalOptions="Start" Clicked="GraphicsStartButton_Clicked" />
-            <Button Text="Pause" VerticalOptions="End" HorizontalOptions="Center" Clicked="GraphicsPauseButton_Clicked"  />
-            <Button Text="Stop" VerticalOptions="End" HorizontalOptions="End" Clicked="GraphicsStopButton_Clicked"  />
-
-        </Grid>
-</VerticalStackLayout>
-
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid>
+                <sv:SlotView x:Name="mySlotView" WidthRequest="400" Speed="10" StopIndex="5" VisibleCount="3" 
+                 HeightRequest="400" Finished="mySlotView_Finished">
+                    <sv:SlotView.Images>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>octocat0.png</x:String>
+                            <x:String>octocat1.png</x:String>
+                            <x:String>octocat2.png</x:String>
+                            <x:String>octocat3.png</x:String>
+                            <x:String>octocat4.png</x:String>
+                            <x:String>octocat5.png</x:String>
+                            <x:String>octocat6.png</x:String>
+                        </x:Array>
+                    </sv:SlotView.Images>
+                </sv:SlotView>
+                <VerticalStackLayout>
+                    <Label Text="Status" />
+                    <HorizontalStackLayout Spacing="8">
+                    <Button Text="Start" Clicked="StartButton_Clicked" />
+                    <Button Text="Pause" Clicked="PauseButton_Clicked"  />
+                    <Button Text="Stop" Clicked="StopButton_Clicked"  />
+                </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
-

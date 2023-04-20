@@ -1,157 +1,314 @@
-﻿using System;
-using SkiaSharp;
+﻿#if !WINDOWS
+using Microsoft.Maui.Graphics.Platform;
+using System;
+#endif
 using System.Diagnostics;
-using SkiaSharp.Views.Maui.Controls;
-using SkiaSharp.Views.Maui;
+using System.Windows.Input;
+using IImage = Microsoft.Maui.Graphics.IImage;
 
 namespace SlotView.MAUI
 {
-    public class SlotView : SKCanvasView
+    public class SlotView : GraphicsView
     {
-        int imageCount = 9;
-
-        private async void LoadImages()
-        {
-            for (int i = 0; i < imageCount; i++)
+        public static readonly BindableProperty ImagesProperty =
+            BindableProperty.Create(nameof(Images), typeof(string[]), typeof(string[]), null, propertyChanged: (bindableObject, oldValue, newValue) =>
             {
-                var filename = $"octocat{i}.png";
+                if (newValue is String[] images && bindableObject is SlotView slotView)
+                {
+                    slotView.LoadImages(images);
+                    slotView.Invalidate();
+                }
+            });
 
-                Debug.WriteLine("loading filename: " + filename);
-                var stream = await ImageLoading.LoadImageStreamAsync(filename, new CancellationToken());
-                images.Add(SKBitmap.Decode(stream));
+        public static readonly BindableProperty SpeedProperty =
+            BindableProperty.Create(nameof(Speed), typeof(float), typeof(float), 15.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
+            {
+                if (newValue is float speed && bindableObject is SlotView slotView)
+                {
+                    slotView.Slot.Speed = speed;
+                    slotView.Invalidate();
+                }
+            });
+
+        public static readonly BindableProperty VisibleCountProperty =
+            BindableProperty.Create(nameof(VisibleCount), typeof(int), typeof(int), 3, propertyChanged: (bindableObject, oldValue, newValue) =>
+            {
+                if (newValue is int visibleCount && bindableObject is SlotView slotView)
+                {
+                    slotView.Slot.VisibleCount = visibleCount;
+                    slotView.Invalidate();
+                }
+            });
+
+        public static readonly BindableProperty DurationProperty =
+            BindableProperty.Create(nameof(Duration), typeof(float), typeof(float), 0.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
+            {
+                if (newValue is float duration && bindableObject is SlotView slotView)
+                {
+                    slotView.Slot.Duration = duration;
+                    if (duration > 0)
+                    {
+                        Task.Delay(TimeSpan.FromSeconds(duration)).ContinueWith((t) =>
+                        {
+                            slotView.StopAnimation(slotView.StopIndex);
+                        });
+                    }
+
+                    slotView.Invalidate();
+                }
+            });
+
+        public static readonly BindableProperty StopIndexProperty =
+            BindableProperty.Create(nameof(StopIndex), typeof(int), typeof(int), -1, propertyChanged: (bindableObject, oldValue, newValue) =>
+            {
+                if (newValue is int stopIndex && bindableObject is SlotView slotView)
+                {
+                    slotView.StopAnimation(stopIndex);
+                    slotView.Invalidate();
+                }
+            });
+
+
+        public static readonly BindableProperty IsSpinningProperty =
+            BindableProperty.Create(nameof(IsSpinning), typeof(bool), typeof(bool), false, propertyChanged: (bindableObject, oldValue, newValue) =>
+            {
+                if (newValue is bool IsSpinning && oldValue is bool WasSpinning && bindableObject is SlotView slotView)
+                {
+                    slotView.Slot.IsSpinning = IsSpinning;
+                    if (IsSpinning && !WasSpinning)
+                    {
+                        slotView.StartAnimation();
+                    }
+                    else if(IsSpinning && WasSpinning)
+                    {
+                        slotView.PauseAnimation();
+                    }
+                    slotView.Invalidate();
+                }
+            });
+
+        //
+
+
+        public event EventHandler Started;
+        public event EventHandler Paused;
+        public event EventHandler Finished;
+
+        bool _isLoaded;
+        async void LoadImages(string[] sources)
+        {
+            Slot.ImageCount = sources.Length;
+            foreach (var source in sources)
+            {
+                Debug.WriteLine("loading filename: " + source);
+                using var stream = await ImageLoading.LoadImageStreamAsync(source, new CancellationToken());
+
+                IImage image = null;
+#if WINDOWS
+                var service = new Microsoft.Maui.Graphics.Win2D.W2DImageLoadingService();
+                image = service.FromStream(stream);
+
+#else
+                image = PlatformImage.FromStream(stream);
+#endif
+                if (Slot.Images is null) Slot.Images = new List<IImage>();
+                Slot.Images.Add(image);
             }
+            _isLoaded = Slot.Images.Count == sources.Length;
         }
 
-        private readonly List<SKBitmap> images = new List<SKBitmap>();
-        private float scrollOffset;
-        private SKPaint paint = new SKPaint();
-        private bool isAnimating;
-        private int stopIndex = -1;
-        private float speedInitial = 15.0f;
-        private float speed = 15.0f;
-        private float speedDecrement = 0.01f;
-        private float maxSpeedDecrement = 0.2f;
-        private float speedDecrementIncrement = 0.01f;
+        public string[] Images
+        {
+            get => (string[])GetValue(ImagesProperty);
+            set => SetValue(ImagesProperty, value);
+        }
 
-        private int visibleCount = 3;
+        public float Speed
+        {
+            get => (float)GetValue(SpeedProperty);
+            set => SetValue(SpeedProperty, value);
+        }
 
+        public int VisibleCount
+        {
+            get => (int)GetValue(VisibleCountProperty);
+            set => SetValue(VisibleCountProperty, value);
+        }
+
+        public float Duration
+        {
+            get => (float)GetValue(DurationProperty);
+            set => SetValue(DurationProperty, value);
+        }
+
+        public int StopIndex
+        {
+            get => (int)GetValue(StopIndexProperty);
+            set => SetValue(StopIndexProperty, value);
+        }
+
+        public bool IsSpinning
+        {
+            get => (bool)GetValue(IsSpinningProperty);
+            set => SetValue(IsSpinningProperty, value);
+        }
+
+        protected SlotDrawable Slot { get; set; }
 
         public SlotView()
         {
-            paint.IsAntialias = true;
-            paint.FilterQuality = SKFilterQuality.High;
-            LoadImages();
+            Drawable = Slot = new SlotDrawable();
+            Slot.Invalidate += Slot_Invalidate;
+            Slot.Finished += Slot_Finished;
+            SizeChanged += SlotView_SizeChanged;
         }
 
-        public void AddImage(SKBitmap image)
+        private void Slot_Finished()
         {
-            images.Add(image);
+            Finished?.Invoke(this, EventArgs.Empty);
+            IsSpinning = false;
+        }
+
+        private void Slot_Invalidate()
+        {
+            Invalidate();
+        }
+
+        private void SlotView_SizeChanged(object sender, EventArgs e)
+        {
+            if (Slot is null) return;
+            if (Slot.Width != (float)Width || Slot.Height != (float)Height)
+            {
+                Slot.Width = (float)Width;
+                Slot.Height = (float)Height;
+                Invalidate();
+            }
         }
 
         public void StartAnimation()
         {
-            isAnimating = true;
-            InvalidateSurface();
+            if (!_isLoaded) return;
+            if (IsSpinning) return;
+            IsSpinning = true;
+            Slot.IsSpinning = true;
+            Started?.Invoke(this, EventArgs.Empty);
+            Invalidate();
         }
 
         public void PauseAnimation()
         {
-            isAnimating = false;
+            if (!_isLoaded) return;
+            if (IsSpinning != false)
+            {
+                IsSpinning = false;
+                Slot.IsSpinning = false;
+                Paused?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public void StopAnimation(int index)
         {
-            if (index >= images.Count)
+            if (!_isLoaded) return;
+            if (index >= Images.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            stopIndex = index;
+            StopIndex = index;
+            Slot.StopIndex = index;
             StartAnimation();
         }
+    }
 
-        protected override void OnPaintSurface(SKPaintSurfaceEventArgs args)
+    public class SlotDrawable : IDrawable
+    {
+
+        private float scrollOffset;
+        private float speedDecrement = 0.01f;
+        private float maxSpeedDecrement = 0.2f;
+        private float speedDecrementIncrement = 0.01f;
+
+        public Action Invalidate { get; set; }
+        public Action Finished { get; set; }
+        public Action Paused { get; set; }
+
+        float _speed;
+        float _speedInitial;
+        public float Speed
         {
-            if (images.Count != imageCount) return;
-            base.OnPaintSurface(args);
+            get => _speedInitial;
+            set
+            {
+                _speedInitial = value;
+                _speed = value;
+            }
+        }
+        public int VisibleCount { get; set; } = 3;
+        public int StopIndex { get; set; } = -1;
+        public bool IsSpinning { get; set; }
+        public List<IImage> Images { get; set; }
+        public int ImageCount { get; set; }
+        public float Duration { get; set; }
 
-            var surface = args.Surface;
-            var canvas = surface.Canvas;
 
-            canvas.Clear(SKColors.White);
+        public float Width { get; set; }
+        public float Height { get; set; }
 
-            var width = canvas.LocalClipBounds.Width;
-            var height = canvas.LocalClipBounds.Height;
+        public SlotDrawable()
+        {
 
-            // Draw the images that are visible on the canvas
-            var imageHeight = height / visibleCount;
-            var numImagesVisible = (int)Math.Ceiling(height / imageHeight) + 1;
+        }
+
+        public void Draw(ICanvas canvas, RectF dirtyRect)
+        {
+            Console.WriteLine("isspinning");
+            if (Images is null) return;
+            if (Images.Count != ImageCount) return;
+
+            var imageHeight = Height / VisibleCount;
+            var numImagesVisible = (int)Math.Ceiling(Height / imageHeight) + 1;
             var imageWidth = imageHeight;
 
             for (var i = 0; i < numImagesVisible; i++)
             {
-                var imageIndex = ((int)Math.Floor(scrollOffset / imageHeight) + i) % images.Count;
+                var imageIndex = ((int)Math.Floor(scrollOffset / imageHeight) + i) % Images.Count;
                 var imageY = i * imageHeight - (scrollOffset % imageHeight);
-                var x = width / 2 - imageWidth / 2;
-                var imageRect = new SKRect(x, imageY, x + imageWidth, imageY + imageHeight);
+                var x = Width / 2 - imageWidth / 2;
 
-
-                canvas.DrawBitmap(images[imageIndex], imageRect, paint);
+                canvas.DrawImage(Images[imageIndex], x, imageY, imageWidth, imageHeight);
             }
 
-            // Update the scroll offset if animating
-            if (isAnimating && stopIndex < 0)
+            if (IsSpinning && StopIndex < 0)
             {
-                scrollOffset += height / 100 * speed;
-                scrollOffset %= imageHeight * images.Count;
+                scrollOffset += Height / 100 * _speed;
+                scrollOffset %= imageHeight * Images.Count;
 
 
-                InvalidateSurface();
+                Invalidate();
             }
-            else if (isAnimating && stopIndex >= 0)
+            else if (IsSpinning && StopIndex >= 0)
             {
                 var centerIndex = (int)Math.Floor(scrollOffset / imageHeight) + (int)Math.Ceiling(numImagesVisible / 2.0);
-                Debug.WriteLine("CENTER INDEX: " + centerIndex);
-                Debug.WriteLine("CENTER INDEX % COUNT: " + centerIndex % images.Count);
-                Debug.WriteLine("STOP INDEX: " + stopIndex);
-                if (centerIndex % images.Count == stopIndex && speed <= 2.0f)
+                if (centerIndex % Images.Count == StopIndex && _speed <= 2.0f)
                 {
-                    stopIndex = -1;
-                    speed = speedInitial;
-                    PauseAnimation();
-                    Debug.WriteLine("STOPPED!");
+                    StopIndex = -1;
+                    _speed = Speed;
+                    Finished();
                 }
                 else
                 {
-                    scrollOffset += height / 100 * speed;
-                    scrollOffset %= imageHeight * images.Count;
+                    scrollOffset += Height / 100 * _speed;
+                    scrollOffset %= imageHeight * Images.Count;
 
-                    // Decrease the speed of the animation
-                    //if(speed > 0 && speed <= 3.0) 
-                    //{
-                    //    Debug.WriteLine("INCREASE DECREMENT INCREMENT " + speedDecrementIncrement);
-                    //    speedDecrementIncrement *= 1.05f;
-                    //    speedDecrement += speedDecrementIncrement;
-                    //    speedDecrement = Math.Min(speedDecrement, maxSpeedDecrement);
-
-                    //    speed = Math.Max(1.5f, speed - speedDecrement);
-                    //}
-                    //else
-                    if (speed > 0)
+                    if (_speed > 0)
                     {
                         speedDecrement += speedDecrementIncrement;
-                        Debug.WriteLine("speed decrement: " + speedDecrement);
                         speedDecrement = Math.Min(speedDecrement, maxSpeedDecrement);
-
-                        speed = Math.Max(2.0f, speed - speedDecrement);
-                        Debug.WriteLine("speed: " + speed);
-
-
+                        _speed = Math.Max(2.0f, _speed - speedDecrement);
                     }
                     speedDecrementIncrement *= 1.05f;
 
-
-                    InvalidateSurface();
+                    Invalidate();
                 }
             }
         }

@@ -3,10 +3,10 @@
 public partial class MainPage : ContentPage
 {
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage()
+    {
+        InitializeComponent();
+    }
 
     void StartButton_Clicked(System.Object sender, System.EventArgs e)
     {
@@ -24,19 +24,9 @@ public partial class MainPage : ContentPage
 
     }
 
-    private void GraphicsStartButton_Clicked(object sender, EventArgs e)
+    private void mySlotView_Finished(object sender, EventArgs e)
     {
-        myGraphicsSlotView.StartAnimation();
-    }
 
-    private void GraphicsPauseButton_Clicked(object sender, EventArgs e)
-    {
-        myGraphicsSlotView.PauseAnimation();
-    }
-
-    private void GraphicsStopButton_Clicked(object sender, EventArgs e)
-    {
-        myGraphicsSlotView.StopAnimation(3);
     }
 }
 
