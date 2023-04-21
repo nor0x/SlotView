@@ -5,13 +5,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:SlotView.MAUI"
     Shell.FlyoutBehavior="Flyout">
-
+        <Shell.FlyoutHeaderTemplate>
+            <DataTemplate>
+                <Grid BackgroundColor="Black"
+                  HeightRequest="200">
+                    <Image Aspect="AspectFill"
+                       Source="store.jpg"
+                       Opacity="0.6" />
+                    <Label Text="Animals"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
+                </Grid>
+            </DataTemplate>
+        </Shell.FlyoutHeaderTemplate>
 
     
     <ShellContent
-        Title="Home"
+        Title="Hello World"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage" />    
+    <ShellContent
+        Title="Octocats"
+        ContentTemplate="{DataTemplate local:OctocatsPage}"
+        Route="Octocats" />
 
 </Shell>
 

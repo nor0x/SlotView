@@ -61,7 +61,7 @@ namespace SlotView.MAUI
         public static readonly BindableProperty StopIndexProperty =
             BindableProperty.Create(nameof(StopIndex), typeof(int), typeof(int), -1, propertyChanged: (bindableObject, oldValue, newValue) =>
             {
-                if (newValue is int stopIndex && bindableObject is SlotView slotView)
+                if (newValue is int stopIndex && oldValue is int oldIndex && bindableObject is SlotView slotView)
                 {
                     slotView.StopAnimation(stopIndex);
                     slotView.Invalidate();
@@ -87,35 +87,38 @@ namespace SlotView.MAUI
                 }
             });
 
-        //
-
-
-        public event EventHandler Started;
-        public event EventHandler Paused;
-        public event EventHandler Finished;
-
-        bool _isLoaded;
-        async void LoadImages(string[] sources)
+        public static readonly new BindableProperty BackgroundColorProperty =
+    BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(SlotView), null,
+        propertyChanged: (bindableObject, oldValue, newValue) =>
         {
-            Slot.ImageCount = sources.Length;
-            foreach (var source in sources)
+            if (newValue != null && bindableObject is SlotView slotView)
             {
-                Debug.WriteLine("loading filename: " + source);
-                using var stream = await ImageLoading.LoadImageStreamAsync(source, new CancellationToken());
-
-                IImage image = null;
-#if WINDOWS
-                var service = new Microsoft.Maui.Graphics.Win2D.W2DImageLoadingService();
-                image = service.FromStream(stream);
-
-#else
-                image = PlatformImage.FromStream(stream);
-#endif
-                if (Slot.Images is null) Slot.Images = new List<IImage>();
-                Slot.Images.Add(image);
+                slotView.UpdateBackground();
             }
-            _isLoaded = Slot.Images.Count == sources.Length;
+        });
+
+        public new Color BackgroundColor
+        {
+            get => (Color)GetValue(BackgroundColorProperty);
+            set => SetValue(BackgroundColorProperty, value);
         }
+
+        public static readonly new BindableProperty BackgroundProperty =
+            BindableProperty.Create(nameof(Background), typeof(Brush), typeof(SlotView), null,
+                propertyChanged: (bindableObject, oldValue, newValue) =>
+                {
+                    if (newValue != null && bindableObject is SlotView slotView)
+                    {
+                        slotView.UpdateBackground();
+                    }
+                });
+
+        public new Brush Background
+        {
+            get => (Brush)GetValue(BackgroundProperty);
+            set => SetValue(BackgroundProperty, value);
+        }
+
 
         public string[] Images
         {
@@ -153,6 +156,13 @@ namespace SlotView.MAUI
             set => SetValue(IsSpinningProperty, value);
         }
 
+        public event EventHandler ImagesLoaded;
+        public event EventHandler Started;
+        public event EventHandler Paused;
+        public event EventHandler Finished;
+
+        bool _isLoaded;
+
         protected SlotDrawable Slot { get; set; }
 
         public SlotView()
@@ -160,7 +170,12 @@ namespace SlotView.MAUI
             Drawable = Slot = new SlotDrawable();
             Slot.Invalidate += Slot_Invalidate;
             Slot.Finished += Slot_Finished;
+            Slot.Speed = Speed;
+            Slot.VisibleCount = VisibleCount;
+            Slot.Duration = Duration;
+
             SizeChanged += SlotView_SizeChanged;
+            Background = new SolidColorBrush(Colors.Red);
         }
 
         private void Slot_Finished()
@@ -185,14 +200,60 @@ namespace SlotView.MAUI
             }
         }
 
-        public void StartAnimation()
+        async Task LoadImages(string[] sources)
+        {
+            Slot.ImageCount = sources.Length;
+            foreach (var source in sources)
+            {
+                using var stream = await ImageLoading.LoadImageStreamAsync(source, new CancellationToken());
+
+                IImage image = null;
+#if WINDOWS
+                var service = new Microsoft.Maui.Graphics.Win2D.W2DImageLoadingService();
+                image = service.FromStream(stream);
+
+#else
+                image = PlatformImage.FromStream(stream);
+#endif
+                if (Slot.Images is null) Slot.Images = new List<IImage>();
+                Slot.Images.Add(image);
+            }
+            _isLoaded = Slot.Images.Count == sources.Length;
+            if (_isLoaded)
+            {
+                ImagesLoaded?.Invoke(this, EventArgs.Empty);
+            }
+
+            Slot.Invalidate();
+
+
+        }
+
+        void UpdateBackground()
+        {
+            if (Slot == null)
+                return;
+
+            if (Background != null)
+                Slot.BackgroundPaint = Background;
+            else
+            {
+                var background = new SolidPaint { Color = BackgroundColor };
+                Slot.BackgroundPaint = background;
+            }
+
+            Invalidate();
+        }
+
+        public async void StartAnimation()
         {
             if (!_isLoaded) return;
             if (IsSpinning) return;
-            IsSpinning = true;
             Slot.IsSpinning = true;
+            Slot.StopIndex = StopIndex;
             Started?.Invoke(this, EventArgs.Empty);
             Invalidate();
+            IsSpinning = true;
         }
 
         public void PauseAnimation()
@@ -227,6 +288,7 @@ namespace SlotView.MAUI
         private float speedDecrement = 0.01f;
         private float maxSpeedDecrement = 0.2f;
         private float speedDecrementIncrement = 0.01f;
+        public Paint BackgroundPaint { get; set; }
 
         public Action Invalidate { get; set; }
         public Action Finished { get; set; }
@@ -261,7 +323,8 @@ namespace SlotView.MAUI
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
-            Console.WriteLine("isspinning");
+            canvas.SetFillPaint(BackgroundPaint, dirtyRect);
+            canvas.FillRectangle(dirtyRect);
             if (Images is null) return;
             if (Images.Count != ImageCount) return;
 
@@ -289,6 +352,8 @@ namespace SlotView.MAUI
             else if (IsSpinning && StopIndex >= 0)
             {
                 var centerIndex = (int)Math.Floor(scrollOffset / imageHeight) + (int)Math.Ceiling(numImagesVisible / 2.0);
+                centerIndex--;
+                Debug.WriteLine("centerindex: " + centerIndex + " stopindex " + StopIndex);
                 if (centerIndex % Images.Count == StopIndex && _speed <= 2.0f)
                 {
                     StopIndex = -1;
@@ -302,11 +367,17 @@ namespace SlotView.MAUI
 
                     if (_speed > 0)
                     {
-                        speedDecrement += speedDecrementIncrement;
-                        speedDecrement = Math.Min(speedDecrement, maxSpeedDecrement);
-                        _speed = Math.Max(2.0f, _speed - speedDecrement);
+                        if (Math.Abs(centerIndex - StopIndex) < 5)
+                        {
+                            speedDecrement += speedDecrementIncrement;
+                            speedDecrement = Math.Min(speedDecrement, maxSpeedDecrement);
+                            _speed = Math.Max(2.0f, _speed - speedDecrement);
+
+                            //speedDecrementIncrement *= 1.05f;
+
+                        }
                     }
-                    speedDecrementIncrement *= 1.05f;
+
 
                     Invalidate();
                 }

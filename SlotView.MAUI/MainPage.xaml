@@ -2,34 +2,47 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sv="clr-namespace:SlotView.MAUI"
-             BackgroundColor="LightGreen"
+             BackgroundColor="LightGray"
              x:Class="SlotView.MAUI.MainPage">
-    <ScrollView>
-        <VerticalStackLayout>
-            <Grid>
-                <sv:SlotView x:Name="mySlotView" WidthRequest="400" Speed="10" StopIndex="5" VisibleCount="3" 
-                 HeightRequest="400" Finished="mySlotView_Finished">
-                    <sv:SlotView.Images>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>octocat0.png</x:String>
-                            <x:String>octocat1.png</x:String>
-                            <x:String>octocat2.png</x:String>
-                            <x:String>octocat3.png</x:String>
-                            <x:String>octocat4.png</x:String>
-                            <x:String>octocat5.png</x:String>
-                            <x:String>octocat6.png</x:String>
-                        </x:Array>
-                    </sv:SlotView.Images>
-                </sv:SlotView>
-                <VerticalStackLayout>
-                    <Label Text="Status" />
-                    <HorizontalStackLayout Spacing="8">
-                    <Button Text="Start" Clicked="StartButton_Clicked" />
-                    <Button Text="Pause" Clicked="PauseButton_Clicked"  />
-                    <Button Text="Stop" Clicked="StopButton_Clicked"  />
-                </HorizontalStackLayout>
-                </VerticalStackLayout>
-            </Grid>
+    <Grid>
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="20">
+            <HorizontalStackLayout>
+
+                <sv:SlotView x:Name="hSlot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+                <sv:SlotView x:Name="eSlot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+                <sv:SlotView x:Name="lSlot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+                <sv:SlotView x:Name="l1Slot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+                <sv:SlotView x:Name="oSlot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+
+                <sv:SlotView x:Name="wSlot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+                <sv:SlotView x:Name="o1Slot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+                <sv:SlotView x:Name="rSlot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+                <sv:SlotView x:Name="l2Slot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+                <sv:SlotView x:Name="dSlot" HeightRequest="150" Speed="15" VisibleCount="1" Background="White"
+                 WidthRequest="120"/>
+
+            </HorizontalStackLayout>
+            <Button Text="Hello 👋" Clicked="Hello_Clicked"/>
         </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 </ContentPage>

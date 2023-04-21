@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sv="clr-namespace:SlotView.MAUI"
+             BackgroundColor="LightGray"
+             x:Class="SlotView.MAUI.OctocatsPage">
+    <ScrollView>
+        <VerticalStackLayout>
+            <VerticalStackLayout>
+                <sv:SlotView x:Name="mySlotView" WidthRequest="300" Speed="10" StopIndex="5" VisibleCount="3" Background="White"
+                 HeightRequest="300" Finished="mySlotView_Finished">
+                    <sv:SlotView.Images>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>octocat0.png</x:String>
+                            <x:String>octocat1.png</x:String>
+                            <x:String>octocat2.png</x:String>
+                            <x:String>octocat3.png</x:String>
+                            <x:String>octocat4.png</x:String>
+                            <x:String>octocat5.png</x:String>
+                            <x:String>octocat6.png</x:String>
+                            <x:String>octocat7.png</x:String>
+                            <x:String>octocat8.png</x:String>
+                            <x:String>octocat9.png</x:String>
+                            <x:String>octocat10.png</x:String>
+                            <x:String>octocat11.png</x:String>
+                            <x:String>octocat12.png</x:String>
+                            <x:String>octocat13.png</x:String>
+                            <x:String>octocat14.png</x:String>
+                            <x:String>octocat15.png</x:String>
+                            <x:String>octocat16.png</x:String>
+                            <x:String>octocat17.png</x:String>
+                            <x:String>octocat18.png</x:String>
+                        </x:Array>
+                    </sv:SlotView.Images>
+                </sv:SlotView>
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                    <Button Text="Start" Clicked="StartButton_Clicked" />
+                    <Button Text="Pause" Clicked="PauseButton_Clicked"  />
+                    <Button Text="Stop" Clicked="StopButton_Clicked"  />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
