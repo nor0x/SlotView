@@ -40,15 +40,15 @@ namespace SlotView.MAUI
                 }
             });
 
-        public static readonly BindableProperty DurationProperty =
-            BindableProperty.Create(nameof(Duration), typeof(float), typeof(float), 0.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
+        public static readonly BindableProperty DelayProperty =
+            BindableProperty.Create(nameof(Delay), typeof(float), typeof(float), 0.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
             {
-                if (newValue is float duration && bindableObject is SlotView slotView)
+                if (newValue is float delay && bindableObject is SlotView slotView)
                 {
-                    slotView.Slot.Duration = duration;
-                    if (duration > 0)
+                    slotView.Slot.Delay = delay;
+                    if (delay > 0)
                     {
-                        Task.Delay(TimeSpan.FromSeconds(duration)).ContinueWith((t) =>
+                        Task.Delay(TimeSpan.FromMilliseconds(delay)).ContinueWith((t) =>
                         {
                             slotView.StopAnimation(slotView.StopIndex);
                         });
@@ -77,7 +77,19 @@ namespace SlotView.MAUI
                     slotView.Slot.IsSpinning = IsSpinning;
                     if (IsSpinning && !WasSpinning)
                     {
-                        slotView.StartAnimation();
+                        if (slotView.Delay > 0)
+                        {
+                            {
+                                Task.Delay(TimeSpan.FromMilliseconds(slotView.Delay)).ContinueWith((t) =>
+                                {
+                                    slotView.StartAnimation();
+                                });
+                            }
+                        }
+                        else
+                        {
+                            slotView.StartAnimation();
+                        }
                     }
                     else if(IsSpinning && WasSpinning)
                     {
@@ -138,10 +150,10 @@ namespace SlotView.MAUI
             set => SetValue(VisibleCountProperty, value);
         }
 
-        public float Duration
+        public float Delay
         {
-            get => (float)GetValue(DurationProperty);
-            set => SetValue(DurationProperty, value);
+            get => (float)GetValue(DelayProperty);
+            set => SetValue(DelayProperty, value);
         }
 
         public int StopIndex
@@ -172,7 +184,7 @@ namespace SlotView.MAUI
             Slot.Finished += Slot_Finished;
             Slot.Speed = Speed;
             Slot.VisibleCount = VisibleCount;
-            Slot.Duration = Duration;
+            Slot.Delay = Delay;
 
             SizeChanged += SlotView_SizeChanged;
             Background = new SolidColorBrush(Colors.Red);
@@ -249,11 +261,27 @@ namespace SlotView.MAUI
         {
             if (!_isLoaded) return;
             if (IsSpinning) return;
-            Slot.IsSpinning = true;
-            Slot.StopIndex = StopIndex;
-            Started?.Invoke(this, EventArgs.Empty);
-            Invalidate();
-            IsSpinning = true;
+            if (Delay > 0)
+            {
+                Task.Delay(TimeSpan.FromMilliseconds(Delay)).ContinueWith((t) =>
+                {
+
+                    Slot.IsSpinning = true;
+                    Slot.StopIndex = StopIndex;
+                    Started?.Invoke(this, EventArgs.Empty);
+                    Invalidate();
+                    IsSpinning = true;
+                });
+            }
+            else
+            {
+                Slot.IsSpinning = true;
+                Slot.StopIndex = StopIndex;
+                Started?.Invoke(this, EventArgs.Empty);
+                Invalidate();
+                IsSpinning = true;
+            }
+
         }
 
         public void PauseAnimation()
@@ -310,7 +338,7 @@ namespace SlotView.MAUI
         public bool IsSpinning { get; set; }
         public List<IImage> Images { get; set; }
         public int ImageCount { get; set; }
-        public float Duration { get; set; }
+        public float Delay { get; set; }
 
 
         public float Width { get; set; }
@@ -367,14 +395,13 @@ namespace SlotView.MAUI
 
                     if (_speed > 0)
                     {
-                        if (Math.Abs(centerIndex - StopIndex) < 5)
+                        if (Math.Abs(centerIndex - StopIndex) < 3)
                         {
                             speedDecrement += speedDecrementIncrement;
                             speedDecrement = Math.Min(speedDecrement, maxSpeedDecrement);
                             _speed = Math.Max(2.0f, _speed - speedDecrement);
 
                             //speedDecrementIncrement *= 1.05f;
-
                         }
                     }
 

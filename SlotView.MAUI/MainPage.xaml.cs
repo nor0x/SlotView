@@ -14,43 +14,43 @@ public partial class MainPage : ContentPage
 
         hSlot.Images = letters.Shuffle().ToArray();
         hSlot.StopIndex = hSlot.Images.ToList().IndexOf("h_letter.png");
-        hSlot.Duration = 1000;
+        hSlot.Delay = 0;
 
         eSlot.Images = letters.Shuffle().ToArray();
         eSlot.StopIndex = eSlot.Images.ToList().IndexOf("e_letter.png");
-        eSlot.Duration = 1100;
+        eSlot.Delay = 100;
 
         lSlot.Images = letters.Shuffle().ToArray();
         lSlot.StopIndex = lSlot.Images.ToList().IndexOf("l_letter.png");
-        lSlot.Duration = 1200;
+        lSlot.Delay = 200;
 
         l1Slot.Images = letters.Shuffle().ToArray();
         l1Slot.StopIndex = l1Slot.Images.ToList().IndexOf("l_letter.png");
-        l1Slot.Duration = 1300;
+        l1Slot.Delay = 300;
 
         oSlot.Images = letters.Shuffle().ToArray();
         oSlot.StopIndex = oSlot.Images.ToList().IndexOf("o_letter.png");
-        oSlot.Duration = 1400;
+        oSlot.Delay = 400;
 
         wSlot.Images = letters.Shuffle().ToArray();
         wSlot.StopIndex = wSlot.Images.ToList().IndexOf("w_letter.png");
-        wSlot.Duration = 1100;
+        wSlot.Delay = 100;
 
         o1Slot.Images = letters.Shuffle().ToArray();
         o1Slot.StopIndex = o1Slot.Images.ToList().IndexOf("o_letter.png");
-        o1Slot.Duration = 1200;
+        o1Slot.Delay = 200;
 
         rSlot.Images = letters.Shuffle().ToArray();
         rSlot.StopIndex = rSlot.Images.ToList().IndexOf("r_letter.png");
-        rSlot.Duration = 1300;
+        rSlot.Delay = 300;
 
         l2Slot.Images = letters.Shuffle().ToArray();
         l2Slot.StopIndex = l2Slot.Images.ToList().IndexOf("l_letter.png");
-        l2Slot.Duration = 1400;
+        l2Slot.Delay = 400;
 
         dSlot.Images = letters.Shuffle().ToArray();
         dSlot.StopIndex = dSlot.Images.ToList().IndexOf("d_letter.png");
-        dSlot.Duration = 1500;
+        dSlot.Delay = 500;
 
     }
 
