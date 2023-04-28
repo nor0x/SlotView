@@ -8,7 +8,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         letters = new List<string>()
         {
-            "a_letter.png", "b_letter.png", "c_letter.png", "d_letter.png", "e_letter.png", "f_letter.png", "g_letter.png", "h_letter.png", "i_letter.png", "j_letter.png", "k_letter.png", "l_letter.png", "m_letter.png", "n_letter.png", "o_letter.png", "p_letter.png", "q_letter.png", "r_letter.png", "s_letter.png", "t_letter.png", "u_letter.png", "v_letter.png", "w_letter.png", "x_letter.png", "y_letter.png", "z_letter.png"
+            "a_letter.png", "b_letter.png", "c_letter.png", "d_letter.png", "e_letter.png", "f_letter.png", "g_letter.png", "h_letter.png", "i_letter.png", "j_letter.png", "k_letter.png", "l_letter.png", "m_letter.png", "n_letter.png", "o_letter.png", "p_letter.png", "q_letter.png", "r_letter.png", "s_letter.png", "t_letter.png", "u_letter.png", "v_letter.png", "w_letter.png", "x_letter.png", "y_letter.png", "z_letter.png", "ex_letter.png"
 
         };
 
@@ -57,6 +57,22 @@ public partial class MainPage : ContentPage
 
     private void Hello_Clicked(object sender, EventArgs e)
     {
+        if(new Random().NextDouble() < 0.5)
+        {
+            wSlot.StopIndex = wSlot.Images.ToList().IndexOf("m_letter.png");
+            o1Slot.StopIndex = o1Slot.Images.ToList().IndexOf("a_letter.png");
+            rSlot.StopIndex = rSlot.Images.ToList().IndexOf("u_letter.png");
+            l2Slot.StopIndex = l2Slot.Images.ToList().IndexOf("i_letter.png");
+            dSlot.StopIndex = dSlot.Images.ToList().IndexOf("ex_letter.png");
+        }
+        else
+        {
+            wSlot.StopIndex = wSlot.Images.ToList().IndexOf("w_letter.png");
+            o1Slot.StopIndex = o1Slot.Images.ToList().IndexOf("o_letter.png");
+            rSlot.StopIndex = rSlot.Images.ToList().IndexOf("r_letter.png");
+            l2Slot.StopIndex = l2Slot.Images.ToList().IndexOf("l_letter.png");
+            dSlot.StopIndex = dSlot.Images.ToList().IndexOf("d_letter.png");
+        }
         hSlot.StartAnimation();
         eSlot.StartAnimation();
         lSlot.StartAnimation();

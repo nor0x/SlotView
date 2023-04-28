@@ -46,29 +46,37 @@ namespace SlotView.MAUI
                 if (newValue is float delay && bindableObject is SlotView slotView)
                 {
                     slotView.Slot.Delay = delay;
-                    if (delay > 0)
-                    {
-                        Task.Delay(TimeSpan.FromMilliseconds(delay)).ContinueWith((t) =>
-                        {
-                            slotView.StopAnimation(slotView.StopIndex);
-                        });
-                    }
-
                     slotView.Invalidate();
                 }
             });
 
+        public static readonly BindableProperty DurationProperty =
+            BindableProperty.Create(nameof(Duration), typeof(float), typeof(float), 1000f, propertyChanged: (bindableObject, oldValue, newValue) =>
+            {
+                if (newValue is float duration && bindableObject is SlotView slotView)
+                {
+                    slotView.Slot.Duration = duration;
+                    slotView.Invalidate();
+                }
+            });
         public static readonly BindableProperty StopIndexProperty =
             BindableProperty.Create(nameof(StopIndex), typeof(int), typeof(int), -1, propertyChanged: (bindableObject, oldValue, newValue) =>
             {
                 if (newValue is int stopIndex && oldValue is int oldIndex && bindableObject is SlotView slotView)
                 {
-                    slotView.StopAnimation(stopIndex);
                     slotView.Invalidate();
                 }
             });
 
-
+        public static readonly BindableProperty DirectionProperty =
+            BindableProperty.Create(nameof(Direction), typeof(SlotDirection), typeof(SlotDirection), SlotDirection.Down, propertyChanged: (bindableObject, oldValue, newValue) =>
+            {
+                if (newValue is SlotDirection dir && bindableObject is SlotView slotView)
+                {
+                    slotView.Slot.Direction = dir;
+                    slotView.Invalidate();
+                }
+            });
         public static readonly BindableProperty IsSpinningProperty =
             BindableProperty.Create(nameof(IsSpinning), typeof(bool), typeof(bool), false, propertyChanged: (bindableObject, oldValue, newValue) =>
             {
@@ -115,23 +123,6 @@ namespace SlotView.MAUI
             set => SetValue(BackgroundColorProperty, value);
         }
 
-        public static readonly new BindableProperty BackgroundProperty =
-            BindableProperty.Create(nameof(Background), typeof(Brush), typeof(SlotView), null,
-                propertyChanged: (bindableObject, oldValue, newValue) =>
-                {
-                    if (newValue != null && bindableObject is SlotView slotView)
-                    {
-                        slotView.UpdateBackground();
-                    }
-                });
-
-        public new Brush Background
-        {
-            get => (Brush)GetValue(BackgroundProperty);
-            set => SetValue(BackgroundProperty, value);
-        }
-
-
         public string[] Images
         {
             get => (string[])GetValue(ImagesProperty);
@@ -154,6 +145,12 @@ namespace SlotView.MAUI
         {
             get => (float)GetValue(DelayProperty);
             set => SetValue(DelayProperty, value);
+        }        
+        
+        public float Duration
+        {
+            get => (float)GetValue(DurationProperty);
+            set => SetValue(DurationProperty, value);
         }
 
         public int StopIndex
@@ -166,6 +163,12 @@ namespace SlotView.MAUI
         {
             get => (bool)GetValue(IsSpinningProperty);
             set => SetValue(IsSpinningProperty, value);
+        }
+
+        public SlotDirection Direction
+        {
+            get => (SlotDirection)GetValue(DirectionProperty);
+            set => SetValue(DirectionProperty, value);
         }
 
         public event EventHandler ImagesLoaded;
@@ -185,6 +188,7 @@ namespace SlotView.MAUI
             Slot.Speed = Speed;
             Slot.VisibleCount = VisibleCount;
             Slot.Delay = Delay;
+            Slot.Duration = Duration;
 
             SizeChanged += SlotView_SizeChanged;
             Background = new SolidColorBrush(Colors.Red);
@@ -246,13 +250,8 @@ namespace SlotView.MAUI
             if (Slot == null)
                 return;
 
-            if (Background != null)
-                Slot.BackgroundPaint = Background;
-            else
-            {
-                var background = new SolidPaint { Color = BackgroundColor };
-                Slot.BackgroundPaint = background;
-            }
+            var background = new SolidPaint { Color = BackgroundColor };
+            Slot.BackgroundPaint = background;
 
             Invalidate();
         }
@@ -302,10 +301,21 @@ namespace SlotView.MAUI
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
-
-            StopIndex = index;
-            Slot.StopIndex = index;
-            StartAnimation();
+            if (Delay > 0)
+            {
+                Task.Delay(TimeSpan.FromMilliseconds(Delay)).ContinueWith((t) =>
+                {
+                    StopIndex = index;
+                    Slot.StopIndex = index;
+                    StartAnimation();
+                });
+            }
+            else
+            {
+                StopIndex = index;
+                Slot.StopIndex = index;
+                StartAnimation();
+            }
         }
     }
 
@@ -313,9 +323,9 @@ namespace SlotView.MAUI
     {
 
         private float scrollOffset;
-        private float speedDecrement = 0.01f;
         private float maxSpeedDecrement = 0.2f;
-        private float speedDecrementIncrement = 0.01f;
+        private float speedDecrementIncrement = 0.001f;
+        private float minSpeed = 6.0f;
         public Paint BackgroundPaint { get; set; }
 
         public Action Invalidate { get; set; }
@@ -323,7 +333,13 @@ namespace SlotView.MAUI
         public Action Paused { get; set; }
 
         float _speed;
-        float _speedInitial;
+        float _speedInitial;        
+        
+        float _drag;
+        float _dragInitial = 0.01f;
+
+        int _visibleCount = 3;
+        DateTime _startTime = DateTime.MinValue;
         public float Speed
         {
             get => _speedInitial;
@@ -332,23 +348,50 @@ namespace SlotView.MAUI
                 _speedInitial = value;
                 _speed = value;
             }
+        }        
+        
+        
+        public float Drag
+        {
+            get => _dragInitial;
+            set
+            {
+                _dragInitial = value;
+                _drag = value;
+            }
         }
-        public int VisibleCount { get; set; } = 3;
+
+        public int DragThreshold { get; set; } = 3;
+
+
+        public int VisibleCount
+        {
+            get => _visibleCount;
+            set
+            {
+                _visibleCount = value;
+            }
+        }
         public int StopIndex { get; set; } = -1;
         public bool IsSpinning { get; set; }
         public List<IImage> Images { get; set; }
         public int ImageCount { get; set; }
         public float Delay { get; set; }
+        public float Duration { get; set; }
 
 
         public float Width { get; set; }
         public float Height { get; set; }
+
+        public SlotDirection Direction { get; set; }
 
         public SlotDrawable()
         {
 
         }
 
+        bool _isSlowingDown = false;
+        
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
             canvas.SetFillPaint(BackgroundPaint, dirtyRect);
@@ -356,59 +399,116 @@ namespace SlotView.MAUI
             if (Images is null) return;
             if (Images.Count != ImageCount) return;
 
-            var imageHeight = Height / VisibleCount;
-            var numImagesVisible = (int)Math.Ceiling(Height / imageHeight) + 1;
-            var imageWidth = imageHeight;
+            var wh = Direction == SlotDirection.Up || Direction == SlotDirection.Down ? Height : Width;
+            var imageSize = wh / VisibleCount;
+            var numImagesVisible = (int)Math.Ceiling(Height / imageSize) + 1;
 
             for (var i = 0; i < numImagesVisible; i++)
             {
-                var imageIndex = ((int)Math.Floor(scrollOffset / imageHeight) + i) % Images.Count;
-                var imageY = i * imageHeight - (scrollOffset % imageHeight);
-                var x = Width / 2 - imageWidth / 2;
+                var imageIndex = ((int)Math.Floor(scrollOffset / imageSize) + i) % Images.Count;
 
-                canvas.DrawImage(Images[imageIndex], x, imageY, imageWidth, imageHeight);
+                float x = 0;
+                if (Direction == SlotDirection.Left)
+                {
+                    x = i * imageSize - (scrollOffset % imageSize);
+                }
+                else if (Direction == SlotDirection.Right)
+                {
+                    x = Width - (i * imageSize) + (scrollOffset % imageSize) - imageSize;
+                }
+                else
+                {
+                    x = Width / 2 - imageSize / 2;
+                }
+
+                float y = 0;
+                if (Direction == SlotDirection.Up)
+                {
+                    y = i * imageSize - (scrollOffset % imageSize);
+                }
+                else if (Direction == SlotDirection.Down)
+                {
+                    y = Height - (i * imageSize) + (scrollOffset % imageSize) - imageSize;
+                }
+                else
+                {
+                    y = Height / 2 - imageSize / 2;
+                }
+
+                canvas.DrawImage(Images[imageIndex], x, y, imageSize, imageSize);
             }
 
             if (IsSpinning && StopIndex < 0)
             {
-                scrollOffset += Height / 100 * _speed;
-                scrollOffset %= imageHeight * Images.Count;
-
+                scrollOffset += wh / 100 * _speed;
+                scrollOffset %= imageSize * Images.Count;
 
                 Invalidate();
             }
             else if (IsSpinning && StopIndex >= 0)
             {
-                var centerIndex = (int)Math.Floor(scrollOffset / imageHeight) + (int)Math.Ceiling(numImagesVisible / 2.0);
+                if (_startTime == DateTime.MinValue)
+                {
+                    _startTime = DateTime.Now;
+                }
+                var centerIndex = (int)Math.Floor(scrollOffset / imageSize) + (int)Math.Ceiling(numImagesVisible / 2.0);
                 centerIndex--;
                 Debug.WriteLine("centerindex: " + centerIndex + " stopindex " + StopIndex);
-                if (centerIndex % Images.Count == StopIndex && _speed <= 2.0f)
+                if (centerIndex % Images.Count == StopIndex && _speed <= minSpeed)
                 {
                     StopIndex = -1;
                     _speed = Speed;
+                    _startTime = DateTime.MinValue;
+                    _isSlowingDown = false;
+                    _drag = Drag;
+                    speedDecrementIncrement = 0.001f;
                     Finished();
                 }
                 else
                 {
                     scrollOffset += Height / 100 * _speed;
-                    scrollOffset %= imageHeight * Images.Count;
+                    scrollOffset %= imageSize * Images.Count;
 
                     if (_speed > 0)
                     {
-                        if (Math.Abs(centerIndex - StopIndex) < 3)
+                        var check = DateTime.Now.Subtract(_startTime).TotalMilliseconds;
+                        if (check > Delay + Duration)
                         {
-                            speedDecrement += speedDecrementIncrement;
-                            speedDecrement = Math.Min(speedDecrement, maxSpeedDecrement);
-                            _speed = Math.Max(2.0f, _speed - speedDecrement);
+                            _drag += speedDecrementIncrement;
 
-                            //speedDecrementIncrement *= 1.05f;
+                            _speed = Math.Max(minSpeed, _speed - _drag);
+
+                            var distance = centerIndex - StopIndex;
+                            if(!_isSlowingDown && distance == DragThreshold)
+                            {
+                                _isSlowingDown = true;
+                            }
+                            if(_isSlowingDown)
+                            {
+                                speedDecrementIncrement += 1.0f;
+                            }
+                            /*
+                            Debug.WriteLine("distance: " + distance);
+                            Debug.WriteLine("duration: " + Duration);
+                            Debug.WriteLine("delay: " + Delay);
+                            Debug.WriteLine("check: " + check);
+                            Debug.WriteLine("speed: " + _speed);
+                            Debug.WriteLine("drag: " + _drag);
+                            Debug.WriteLine("speedDecrementIncrement: " + speedDecrementIncrement);
+                            */
                         }
                     }
-
-
                     Invalidate();
                 }
             }
         }
+    }
+
+    public enum SlotDirection
+    {
+        Up,
+        Down,
+        Left,
+        Right
     }
 }

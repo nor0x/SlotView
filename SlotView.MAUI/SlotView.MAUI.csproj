@@ -57,6 +57,9 @@
 	  <Compile Update="MainPage.xaml.cs">
 	    <DependentUpon>MainPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="SlotMachinePage.xaml.cs">
+	    <DependentUpon>SlotMachinePage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="OctocatsPage.xaml.cs">
 	    <DependentUpon>OctocatsPage.xaml</DependentUpon>
 	  </Compile>
@@ -64,6 +67,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SlotMachinePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
