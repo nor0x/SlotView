@@ -5,7 +5,10 @@
 [![](https://img.shields.io/nuget/v/SlotView.Maui)](https://www.nuget.org/packages/SlotView.Maui)
 [![](https://img.shields.io/nuget/dt/SlotView.Maui)](https://www.nuget.org/packages/SlotView.Maui)
 
-a view that can animate images like a slot machine reel. Powered by Maui.Graphics and highly customizable.
+a view that can animate images like a slot machine reel. Powered by Maui.Graphics and highly customizable. 
+
+read more about the development here in my blog [http://johnnys.news/2023/04/Hello-SlotView-Maui](http://johnnys.news/2023/04/Hello-SlotView-Maui)
+
 
 https://user-images.githubusercontent.com/3210391/235326369-8bedf844-841e-4485-935a-0c94b0cef98c.mp4
 
@@ -162,3 +165,11 @@ var mySlotView = new SlotView
 **Type:** `EventHandler`
 
 **Description:** Occurs when the spinning animation has finished.
+
+
+# Demo
+You can find a demo project with multiple scenarious and customizations in the [SlotView.Maui.Demo](https://github.com/nor0x/SlotView/tree/main/SlotView.Maui.Demo) folder of this repository.
+
+<img src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/demo1.png" width="500px" />
+<img src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/demo2.png" width="500px" />
+<img src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/demo3.png" width="500px" />
