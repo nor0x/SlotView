@@ -1,9 +1,13 @@
 ﻿using Microsoft.Maui.Platform;
-namespace SlotView.MAUI;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+
+namespace SlotView.Maui;
 public static class ImageLoading
 {
+    // thx to https://github.com/Esri/arcgis-maps-sdk-dotnet-samples
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-    public static async Task<Stream> LoadImageStreamAsync(string file, CancellationToken cancellationToken)
+    static async Task<Stream> LoadImageFromFile(string file, CancellationToken cancellationToken = default)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
     {
         if (Path.IsPathRooted(file) && File.Exists(file))
@@ -68,5 +72,45 @@ public static class ImageLoading
 #endif
 
         return null;
+    }
+
+    static async Task<Stream> LoadImageFromUri(string uri, CancellationToken cancellationToken = default)
+    {
+        using var client = new HttpClient();
+        var response = await client.GetAsync(uri, cancellationToken).ConfigureAwait(false);
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+        return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+    }
+
+    public static async Task<Stream> GetImageStream(string path,  CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (path is null) return null;
+            if (string.IsNullOrEmpty(path)) return null;
+            if (IsWebUrl(path))
+            {
+                return await LoadImageFromUri(path);
+            }
+            else
+            {
+                return await LoadImageFromFile(path);
+            }
+        }
+        catch(Exception ex) 
+        {
+            Trace.WriteLine("IMAGE LOADING EXCEPTION: " + ex);
+            return null;
+        }
+    }
+
+    static bool IsWebUrl(string url)
+    {
+        // Regular expression to check if a string is a web URL
+        string pattern = @"^(https?://|www\.)\S+$";
+        return Regex.IsMatch(url, pattern);
     }
 }

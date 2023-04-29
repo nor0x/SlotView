@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sv="clr-namespace:SlotView.Maui;assembly=SlotView.Maui"
+    Shell.NavBarIsVisible="false"
+    BackgroundColor="LightGray"
+    x:Class="SlotView.Maui.Demo.MainPage">
+    <Grid>
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+
+            Spacing="20">
+            <HorizontalStackLayout>
+                <HorizontalStackLayout.Margin>
+                    <OnIdiom x:TypeArguments="Thickness">
+                        <OnIdiom.Phone>-70,0,0,0</OnIdiom.Phone>
+                        <OnIdiom.Tablet>0,0,0,0</OnIdiom.Tablet>
+                        <OnIdiom.Desktop>0,0,0,0</OnIdiom.Desktop>
+                    </OnIdiom>
+                </HorizontalStackLayout.Margin>
+                <HorizontalStackLayout.Scale>
+                    <OnIdiom x:TypeArguments="x:Double">
+                        <OnIdiom.Phone>0.5</OnIdiom.Phone>
+                        <OnIdiom.Tablet>1.0</OnIdiom.Tablet>
+                        <OnIdiom.Desktop>1.0</OnIdiom.Desktop>
+                    </OnIdiom>
+                </HorizontalStackLayout.Scale>
+                <sv:SlotView
+                    x:Name="hSlot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+                <sv:SlotView
+                    x:Name="eSlot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+                <sv:SlotView
+                    x:Name="lSlot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+                <sv:SlotView
+                    x:Name="l1Slot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+                <sv:SlotView
+                    x:Name="oSlot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <HorizontalStackLayout.Margin>
+                    <OnIdiom x:TypeArguments="Thickness">
+                        <OnIdiom.Phone>-70,0,0,0</OnIdiom.Phone>
+                        <OnIdiom.Tablet>0,0,0,0</OnIdiom.Tablet>
+                        <OnIdiom.Desktop>0,0,0,0</OnIdiom.Desktop>
+                    </OnIdiom>
+                </HorizontalStackLayout.Margin>
+                <HorizontalStackLayout.Scale>
+                    <OnIdiom x:TypeArguments="x:Double">
+                        <OnIdiom.Phone>0.5</OnIdiom.Phone>
+                        <OnIdiom.Tablet>1.0</OnIdiom.Tablet>
+                        <OnIdiom.Desktop>1.0</OnIdiom.Desktop>
+                    </OnIdiom>
+                </HorizontalStackLayout.Scale>
+                <sv:SlotView
+                    x:Name="wSlot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+                <sv:SlotView
+                    x:Name="o1Slot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+                <sv:SlotView
+                    x:Name="rSlot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+                <sv:SlotView
+                    x:Name="l2Slot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+                <sv:SlotView
+                    x:Name="dSlot"
+                    HeightRequest="150"
+                    Speed="15"
+                    MinimumSpeed="5.5"
+                    Drag="0.03"
+                    DragThreshold="1"
+                    VisibleCount="1"
+                    Background="White"
+                    WidthRequest="120">
+                    <sv:SlotView.Clip>
+                        <RoundRectangleGeometry
+                            CornerRadius="12"
+                            Rect="0,0,120,147" />
+                    </sv:SlotView.Clip>
+                </sv:SlotView>
+            </HorizontalStackLayout>
+            <Button
+                WidthRequest="250"
+                Text="spin me right 'round"
+                Clicked="Hello_Clicked" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

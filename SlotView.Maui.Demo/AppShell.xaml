@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Shell
+    x:Class="SlotView.Maui.Demo.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="self"
+    xmlns:local="clr-namespace:SlotView.Maui.Demo"
+    FlyoutBackgroundColor="#3d3d3d"
+    Shell.NavBarIsVisible="{OnIdiom Phone=true, Tablet=false, Desktop=false}"
+    Shell.FlyoutBehavior="Flyout">
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid
+                x:Name="HeaderGrid"
+                Background="{Binding Source={x:Reference self}, Path=HeaderBackground}"
+                HeightRequest="234">
+                <VerticalStackLayout VerticalOptions="Center">
+                    <Image Source="logo.png" WidthRequest="130" Margin="0,0,0,-30" />
+                    <Label
+                    Text="SlotView"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Rotation="{Binding Source={x:Reference self}, Path=HeaderRotation}"
+                    FontSize="42"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+    <ShellContent
+        Title="Hello World 👋"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+    <ShellContent
+        Title="Octocats 😻"
+        ContentTemplate="{DataTemplate local:OctocatsPage}"
+        Route="OctocatsPage" />
+    <ShellContent
+        Title="SlotMachine 🎰"
+        ContentTemplate="{DataTemplate local:SlotMachinePage}"
+        Route="SlotMachinePage" />
+
+
+
+</Shell>
