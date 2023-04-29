@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/icon.png" width="200px" />
+<img src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/icon.png" width="250px" />
 
 # SlotView.Maui 🎰
 [![.NET](https://github.com/nor0x/SlotView/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nor0x/SlotView/actions/workflows/dotnet.yml)
