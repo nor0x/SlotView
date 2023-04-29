@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/nor0x/SlotView.Maui/main/Art/icon.png" width="200px" />
+<img src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/icon.png" width="200px" />
 
 # SlotView.Maui 🎰
 [![.NET](https://github.com/nor0x/SlotView/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nor0x/OverFlower/actions/workflows/dotnet.yml)
@@ -8,7 +8,7 @@
 a view that can animate images like a slot machine reel. Powered by Maui.Graphics and highly customizable.
 
 <video width="100%" controls>
-  <source src="https://raw.githubusercontent.com/nor0x/SlotView.Maui/main/Art/demo.mp4" type="video/mp4" />
+  <source src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/demo.mp4" type="video/mp4" />
 </video>
 
 
