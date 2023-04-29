@@ -22,8 +22,8 @@
 		<AssemblyVersion>0.0.1</AssemblyVersion>
 		<AssemblyFileVersion>0.0.1</AssemblyFileVersion>
 		<Version>0.0.1</Version>
-		<Title>Maui.SlotView</Title>
-		<PackageId>Maui.SlotView</PackageId>
+		<Title>nor0x.Maui.SlotView</Title>
+		<PackageId>nor0x.Maui.SlotView</PackageId>
 		<PackageReleaseNotes>https://github.com/nor0x/SlotView/releases</PackageReleaseNotes>
 		<PackageProjectUrl>https://github.com/nor0x/SlotView</PackageProjectUrl>
 		<PackageIconUrl>https://raw.githubusercontent.com/nor0x/SlotView/main/Art/packageicon.png</PackageIconUrl>
