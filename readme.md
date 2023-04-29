@@ -5,13 +5,13 @@
 [![](https://img.shields.io/nuget/v/SlotView.Maui)](https://www.nuget.org/packages/SlotView.Maui)
 [![](https://img.shields.io/nuget/dt/SlotView.Maui)](https://www.nuget.org/packages/SlotView.Maui)
 
+a view that can animate images like a slot machine reel. Powered by Maui.Graphics and highly customizable.
 
 <video width="100%" controls>
   <source src="https://raw.githubusercontent.com/nor0x/SlotView.Maui/main/Art/demo.mp4" type="video/mp4" />
 </video>
 
 
-a view that can animate images like a slot machine reel. Powered by Maui.Graphics and highly customizable.
 
 ## Installation
 Add NuGet package to your project:
