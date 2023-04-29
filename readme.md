@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/icon.png" width="200px" />
 
 # SlotView.Maui 🎰
-[![.NET](https://github.com/nor0x/SlotView/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nor0x/OverFlower/actions/workflows/dotnet.yml)
+[![.NET](https://github.com/nor0x/SlotView/actions/workflows/dotnet.yml/badge.svg)](https://github.com/nor0x/SlotView/actions/workflows/dotnet.yml)
 [![](https://img.shields.io/nuget/v/SlotView.Maui)](https://www.nuget.org/packages/SlotView.Maui)
 [![](https://img.shields.io/nuget/dt/SlotView.Maui)](https://www.nuget.org/packages/SlotView.Maui)
 
