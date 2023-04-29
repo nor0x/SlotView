@@ -7,10 +7,7 @@
 
 a view that can animate images like a slot machine reel. Powered by Maui.Graphics and highly customizable.
 
-<video width="100%" controls>
-  <source src="https://raw.githubusercontent.com/nor0x/SlotView/main/Art/demo.mp4" type="video/mp4" />
-</video>
-
+https://user-images.githubusercontent.com/3210391/235326369-8bedf844-841e-4485-935a-0c94b0cef98c.mp4
 
 
 ## Installation
@@ -22,6 +19,7 @@ or as PackageReference
 ```
 <PackageReference Include="SlotView.Maui" Version="0.0.1" />
 ```
+
 
 ## Usage
 ```xml
