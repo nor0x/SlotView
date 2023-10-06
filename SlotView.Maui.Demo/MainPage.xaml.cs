@@ -13,43 +13,43 @@ public partial class MainPage : ContentPage
         };
 
         hSlot.Images = letters.Shuffle().ToArray();
-        hSlot.StopIndex = hSlot.Images.ToList().IndexOf("h_letter.png");
+        hSlot.StopIndex = hSlot.Images.IndexOf("h_letter.png");
         hSlot.Delay = 0;
 
         eSlot.Images = letters.Shuffle().ToArray();
-        eSlot.StopIndex = eSlot.Images.ToList().IndexOf("e_letter.png");
+        eSlot.StopIndex = eSlot.Images.IndexOf("e_letter.png");
         eSlot.Delay = 100;
 
         lSlot.Images = letters.Shuffle().ToArray();
-        lSlot.StopIndex = lSlot.Images.ToList().IndexOf("l_letter.png");
+        lSlot.StopIndex = lSlot.Images.IndexOf("l_letter.png");
         lSlot.Delay = 200;
 
         l1Slot.Images = letters.Shuffle().ToArray();
-        l1Slot.StopIndex = l1Slot.Images.ToList().IndexOf("l_letter.png");
+        l1Slot.StopIndex = l1Slot.Images.IndexOf("l_letter.png");
         l1Slot.Delay = 300;
 
         oSlot.Images = letters.Shuffle().ToArray();
-        oSlot.StopIndex = oSlot.Images.ToList().IndexOf("o_letter.png");
+        oSlot.StopIndex = oSlot.Images.IndexOf("o_letter.png");
         oSlot.Delay = 400;
 
         wSlot.Images = letters.Shuffle().ToArray();
-        wSlot.StopIndex = wSlot.Images.ToList().IndexOf("w_letter.png");
+        wSlot.StopIndex = wSlot.Images.IndexOf("w_letter.png");
         wSlot.Delay = 100;
 
         o1Slot.Images = letters.Shuffle().ToArray();
-        o1Slot.StopIndex = o1Slot.Images.ToList().IndexOf("o_letter.png");
+        o1Slot.StopIndex = o1Slot.Images.IndexOf("o_letter.png");
         o1Slot.Delay = 200;
 
         rSlot.Images = letters.Shuffle().ToArray();
-        rSlot.StopIndex = rSlot.Images.ToList().IndexOf("r_letter.png");
+        rSlot.StopIndex = rSlot.Images.IndexOf("r_letter.png");
         rSlot.Delay = 300;
 
         l2Slot.Images = letters.Shuffle().ToArray();
-        l2Slot.StopIndex = l2Slot.Images.ToList().IndexOf("l_letter.png");
+        l2Slot.StopIndex = l2Slot.Images.IndexOf("l_letter.png");
         l2Slot.Delay = 400;
 
         dSlot.Images = letters.Shuffle().ToArray();
-        dSlot.StopIndex = dSlot.Images.ToList().IndexOf("d_letter.png");
+        dSlot.StopIndex = dSlot.Images.IndexOf("d_letter.png");
         dSlot.Delay = 500;
 
     }
@@ -59,20 +59,20 @@ public partial class MainPage : ContentPage
     {
         if (change)
         {
-            wSlot.StopIndex = wSlot.Images.ToList().IndexOf("m_letter.png");
-            o1Slot.StopIndex = o1Slot.Images.ToList().IndexOf("a_letter.png");
-            rSlot.StopIndex = rSlot.Images.ToList().IndexOf("u_letter.png");
-            l2Slot.StopIndex = l2Slot.Images.ToList().IndexOf("i_letter.png");
-            dSlot.StopIndex = dSlot.Images.ToList().IndexOf("ex_letter.png");
+            wSlot.StopIndex = wSlot.Images.IndexOf("m_letter.png");
+            o1Slot.StopIndex = o1Slot.Images.IndexOf("a_letter.png");
+            rSlot.StopIndex = rSlot.Images.IndexOf("u_letter.png");
+            l2Slot.StopIndex = l2Slot.Images.IndexOf("i_letter.png");
+            dSlot.StopIndex = dSlot.Images.IndexOf("ex_letter.png");
         }
         else
         {
             change = true;
-            wSlot.StopIndex = wSlot.Images.ToList().IndexOf("w_letter.png");
-            o1Slot.StopIndex = o1Slot.Images.ToList().IndexOf("o_letter.png");
-            rSlot.StopIndex = rSlot.Images.ToList().IndexOf("r_letter.png");
-            l2Slot.StopIndex = l2Slot.Images.ToList().IndexOf("l_letter.png");
-            dSlot.StopIndex = dSlot.Images.ToList().IndexOf("d_letter.png");
+            wSlot.StopIndex = wSlot.Images.IndexOf("w_letter.png");
+            o1Slot.StopIndex = o1Slot.Images.IndexOf("o_letter.png");
+            rSlot.StopIndex = rSlot.Images.IndexOf("r_letter.png");
+            l2Slot.StopIndex = l2Slot.Images.IndexOf("l_letter.png");
+            dSlot.StopIndex = dSlot.Images.IndexOf("d_letter.png");
         }
         _ = hSlot.StartAnimation();
         _ = eSlot.StartAnimation();

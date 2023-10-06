@@ -5,13 +5,15 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using IImage = Microsoft.Maui.Graphics.IImage;
+using System.Collections;
+
 
 namespace SlotView.Maui;
 
 public class SlotView : GraphicsView
 {
     public static readonly BindableProperty ImagesProperty =
-        BindableProperty.Create(nameof(Images), typeof(string[]), typeof(string[]), null, propertyChanged: async (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(Images), typeof(IList), typeof(SlotView), default(IList), propertyChanged: async (bindableObject, oldValue, newValue) =>
         {
             if (newValue is String[] images && bindableObject is SlotView slotView)
             {
@@ -21,7 +23,7 @@ public class SlotView : GraphicsView
         });
 
     public static readonly BindableProperty SpeedProperty =
-        BindableProperty.Create(nameof(Speed), typeof(float), typeof(float), 15.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(Speed), typeof(float), typeof(SlotView), 15.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is float speed && bindableObject is SlotView slotView)
             {
@@ -31,7 +33,7 @@ public class SlotView : GraphicsView
         }); 
     
     public static readonly BindableProperty MinimumSpeedProperty =
-        BindableProperty.Create(nameof(MinimumSpeed), typeof(float), typeof(float), 4.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(MinimumSpeed), typeof(float), typeof(SlotView), 4.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is float speed && bindableObject is SlotView slotView)
             {
@@ -41,7 +43,7 @@ public class SlotView : GraphicsView
         });
     
     public static readonly BindableProperty DragProperty =
-        BindableProperty.Create(nameof(Drag), typeof(float), typeof(float), 0.01f, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(Drag), typeof(float), typeof(SlotView), 0.01f, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is float drag && bindableObject is SlotView slotView)
             {
@@ -51,7 +53,7 @@ public class SlotView : GraphicsView
         }); 
     
     public static readonly BindableProperty DragThresholdProperty =
-        BindableProperty.Create(nameof(DragThreshold), typeof(int), typeof(int), 3, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(DragThreshold), typeof(int), typeof(SlotView), 3, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is int dragthreshold && bindableObject is SlotView slotView)
             {
@@ -61,7 +63,7 @@ public class SlotView : GraphicsView
         });
 
     public static readonly BindableProperty VisibleCountProperty =
-        BindableProperty.Create(nameof(VisibleCount), typeof(int), typeof(int), 3, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(VisibleCount), typeof(int), typeof(SlotView), 3, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is int visibleCount && bindableObject is SlotView slotView)
             {
@@ -71,7 +73,7 @@ public class SlotView : GraphicsView
         });
 
     public static readonly BindableProperty DelayProperty =
-        BindableProperty.Create(nameof(Delay), typeof(float), typeof(float), 0.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(Delay), typeof(float), typeof(SlotView), 0.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is float delay && bindableObject is SlotView slotView)
             {
@@ -81,7 +83,7 @@ public class SlotView : GraphicsView
         });
 
     public static readonly BindableProperty DurationProperty =
-        BindableProperty.Create(nameof(Duration), typeof(float), typeof(float), 1000f, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(Duration), typeof(float), typeof(SlotView), 1000f, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is float duration && bindableObject is SlotView slotView)
             {
@@ -91,7 +93,7 @@ public class SlotView : GraphicsView
         });
 
     public static readonly BindableProperty StopIndexProperty =
-        BindableProperty.Create(nameof(StopIndex), typeof(int), typeof(int), -1, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(StopIndex), typeof(int), typeof(SlotView), -1, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is int stopIndex && oldValue is int oldIndex && bindableObject is SlotView slotView)
             {
@@ -100,7 +102,7 @@ public class SlotView : GraphicsView
         });
 
     public static readonly BindableProperty DirectionProperty =
-        BindableProperty.Create(nameof(Direction), typeof(SlotDirection), typeof(SlotDirection), SlotDirection.Down, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(Direction), typeof(SlotDirection), typeof(SlotView), SlotDirection.Down, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is SlotDirection dir && bindableObject is SlotView slotView)
             {
@@ -110,7 +112,7 @@ public class SlotView : GraphicsView
         });
 
     public static readonly BindableProperty IsSpinningProperty =
-        BindableProperty.Create(nameof(IsSpinning), typeof(bool), typeof(bool), false, propertyChanged: (bindableObject, oldValue, newValue) =>
+        BindableProperty.Create(nameof(IsSpinning), typeof(bool), typeof(SlotView), false, propertyChanged: (bindableObject, oldValue, newValue) =>
         {
             if (newValue is bool IsSpinning && oldValue is bool WasSpinning && bindableObject is SlotView slotView)
             {
@@ -163,9 +165,9 @@ public class SlotView : GraphicsView
     /// Works with both local and remote images.
     /// Works best with square images with equal width and height.
     /// </summary>
-    public string[] Images
+    public IList Images
     {
-        get => (string[])GetValue(ImagesProperty);
+        get => (IList)GetValue(ImagesProperty);
         set => SetValue(ImagesProperty, value);
     }
 
@@ -326,7 +328,7 @@ public class SlotView : GraphicsView
         }
     }
 
-    async Task LoadImages(string[] sources)
+    async Task LoadImages(String[] sources)
     {
 
         Slot.ImageCount = sources.Length;
@@ -421,7 +423,7 @@ public class SlotView : GraphicsView
     public void StopAnimation(int index)
     {
         if (!_isLoaded) return;
-        if (index >= Images.Length)
+        if (index >= Images.Count)
         {
             throw new ArgumentOutOfRangeException(nameof(index));
         }

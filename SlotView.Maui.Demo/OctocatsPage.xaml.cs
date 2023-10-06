@@ -7,10 +7,10 @@ public partial class OctocatsPage : ContentPage
     {
         InitializeComponent();
         StopStepper.Minimum = -1;
-        StopStepper.Maximum = mySlotView.Images.Length;
+        StopStepper.Maximum = mySlotView.Images.Count;
 
         VisibleCountStepper.Minimum = 1;
-        VisibleCountStepper.Maximum = mySlotView.Images.Length;
+        VisibleCountStepper.Maximum = mySlotView.Images.Count;
         BackgroundColorEntry.Text = String.Format("#{0:X6}", new Random().Next(0x1000000));
         mySlotView.StopIndex = 0;
         mySlotView.MinimumSpeed = 4;
