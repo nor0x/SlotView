@@ -30,96 +30,7 @@ public static class ImageLoading
 			var stream = context.ContentResolver.OpenInputStream(imageUri);
 			if (stream is not null)
 				return stream;
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-        }
-#elif WINDOWS
-        try
-        {
-            var sf = await Windows.Storage.StorageFile.GetFileFromPathAsync(file);
-            if (sf is not null)
-            {
-                var stream = await sf.OpenStreamForReadAsync();
-                if (stream is not null)
-                    return stream;
-            }
-        }
-        catch
-        {
-        }
-
-        if (AppInfo.PackagingModel == AppPackagingModel.Packaged)
-        {
-            var uri = new Uri("ms-appx:///" + file);
-            var sf = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
-            var stream = await sf.OpenStreamForReadAsync();
-            if (stream is not null)
-                return stream;
-        }
-        else
-        {
-            var root = AppContext.BaseDirectory;
-            file = Path.Combine(root, file);
-            if (File.Exists(file))
-                return File.OpenRead(file);
-        }
-#elif IOS || MACCATALYST
-        var root = Foundation.NSBundle.MainBundle.BundlePath;
-#if MACCATALYST || MACOS
-        root = Path.Combine(root, "Contents", "Resources");
-#endif
-        file = Path.Combine(root, file);
-        if (File.Exists(file))
-            return File.OpenRead(file);
-#endif
-
-        return null;
-After:
 		}
-#elif WINDOWS
-        try
-        {
-            var sf = await Windows.Storage.StorageFile.GetFileFromPathAsync(file);
-            if (sf is not null)
-            {
-                var stream = await sf.OpenStreamForReadAsync();
-                if (stream is not null)
-                    return stream;
-            }
-        }
-        catch
-        {
-        }
-
-        if (AppInfo.PackagingModel == AppPackagingModel.Packaged)
-        {
-            var uri = new Uri("ms-appx:///" + file);
-            var sf = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
-            var stream = await sf.OpenStreamForReadAsync();
-            if (stream is not null)
-                return stream;
-        }
-        else
-        {
-            var root = AppContext.BaseDirectory;
-            file = Path.Combine(root, file);
-            if (File.Exists(file))
-                return File.OpenRead(file);
-        }
-#elif IOS || MACCATALYST
-        var root = Foundation.NSBundle.MainBundle.BundlePath;
-#if MACCATALYST || MACOS
-        root = Path.Combine(root, "Contents", "Resources");
-#endif
-        file = Path.Combine(root, file);
-        if (File.Exists(file))
-            return File.OpenRead(file);
-#endif
-
-		return null;
-*/
-        }
 #elif WINDOWS
 		try
 		{
@@ -149,36 +60,7 @@ After:
 			file = Path.Combine(root, file);
 			if (File.Exists(file))
 				return File.OpenRead(file);
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-        }
-#elif IOS || MACCATALYST
-        var root = Foundation.NSBundle.MainBundle.BundlePath;
-#if MACCATALYST || MACOS
-        root = Path.Combine(root, "Contents", "Resources");
-#endif
-        file = Path.Combine(root, file);
-        if (File.Exists(file))
-            return File.OpenRead(file);
-#endif
-
-        return null;
-After:
 		}
-#elif IOS || MACCATALYST
-        var root = Foundation.NSBundle.MainBundle.BundlePath;
-#if MACCATALYST || MACOS
-        root = Path.Combine(root, "Contents", "Resources");
-#endif
-        file = Path.Combine(root, file);
-        if (File.Exists(file))
-            return File.OpenRead(file);
-#endif
-
-		return null;
-*/
-        }
 #elif IOS || MACCATALYST
 		var root = Foundation.NSBundle.MainBundle.BundlePath;
 #if MACCATALYST || MACOS
@@ -230,33 +112,5 @@ After:
 		// Regular expression to check if a string is a web URL
 		string pattern = @"^(https?://|www\.)\S+$";
 		return Regex.IsMatch(url, pattern);
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-    }
-After:
-	}
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-ios)'
-Before:
-    }
-After:
-	}
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-maccatalyst)'
-Before:
-    }
-After:
-	}
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-    }
-After:
-	}
-*/
 	}
 }

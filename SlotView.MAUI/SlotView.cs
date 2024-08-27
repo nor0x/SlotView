@@ -22,21 +22,6 @@ public class SlotView : GraphicsView
 			}
 		});
 
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-    public static readonly BindableProperty SpeedProperty =
-        BindableProperty.Create(nameof(Speed), typeof(float), typeof(SlotView), 15.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
-        {
-            if (newValue is float speed && bindableObject is SlotView slotView)
-            {
-                slotView.Slot.Speed = speed;
-                slotView.Invalidate();
-            }
-        }); 
-    
-    public static readonly BindableProperty MinimumSpeedProperty =
-After:
 	public static readonly BindableProperty SpeedProperty =
 		BindableProperty.Create(nameof(Speed), typeof(float), typeof(SlotView), 15.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
 		{
@@ -46,99 +31,6 @@ After:
 				slotView.Invalidate();
 			}
 		});
-
-	public static readonly BindableProperty MinimumSpeedProperty =
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-    public static readonly BindableProperty SpeedProperty =
-        BindableProperty.Create(nameof(Speed), typeof(float), typeof(SlotView), 15.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
-        {
-            if (newValue is float speed && bindableObject is SlotView slotView)
-            {
-                slotView.Slot.Speed = speed;
-                slotView.Invalidate();
-            }
-        }); 
-    
-    public static readonly BindableProperty MinimumSpeedProperty =
-After:
-	public static readonly BindableProperty SpeedProperty =
-		BindableProperty.Create(nameof(Speed), typeof(float), typeof(SlotView), 15.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
-		{
-			if (newValue is float speed && bindableObject is SlotView slotView)
-			{
-				slotView.Slot.Speed = speed;
-				slotView.Invalidate();
-			}
-		});
-
-	public static readonly BindableProperty MinimumSpeedProperty =
-*/
-	public static readonly BindableProperty SpeedProperty =
-		BindableProperty.Create(nameof(Speed), typeof(float), typeof(SlotView), 15.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
-		{
-			if (newValue is float speed && bindableObject is SlotView slotView)
-			{
-				slotView.Slot.Speed = speed;
-				slotView.Invalidate();
-			}
-		});
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-    public static readonly BindableProperty DragProperty =
-        BindableProperty.Create(nameof(Drag), typeof(float), typeof(SlotView), 0.01f, propertyChanged: (bindableObject, oldValue, newValue) =>
-        {
-            if (newValue is float drag && bindableObject is SlotView slotView)
-            {
-                slotView.Slot.Drag = drag;
-                slotView.Invalidate();
-            }
-        }); 
-    
-    public static readonly BindableProperty DragThresholdProperty =
-After:
-	public static readonly BindableProperty DragProperty =
-		BindableProperty.Create(nameof(Drag), typeof(float), typeof(SlotView), 0.01f, propertyChanged: (bindableObject, oldValue, newValue) =>
-		{
-			if (newValue is float drag && bindableObject is SlotView slotView)
-			{
-				slotView.Slot.Drag = drag;
-				slotView.Invalidate();
-			}
-		});
-
-	public static readonly BindableProperty DragThresholdProperty =
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-    public static readonly BindableProperty DragProperty =
-        BindableProperty.Create(nameof(Drag), typeof(float), typeof(SlotView), 0.01f, propertyChanged: (bindableObject, oldValue, newValue) =>
-        {
-            if (newValue is float drag && bindableObject is SlotView slotView)
-            {
-                slotView.Slot.Drag = drag;
-                slotView.Invalidate();
-            }
-        }); 
-    
-    public static readonly BindableProperty DragThresholdProperty =
-After:
-	public static readonly BindableProperty DragProperty =
-		BindableProperty.Create(nameof(Drag), typeof(float), typeof(SlotView), 0.01f, propertyChanged: (bindableObject, oldValue, newValue) =>
-		{
-			if (newValue is float drag && bindableObject is SlotView slotView)
-			{
-				slotView.Slot.Drag = drag;
-				slotView.Invalidate();
-			}
-		});
-
-	public static readonly BindableProperty DragThresholdProperty =
-*/
 
 	public static readonly BindableProperty MinimumSpeedProperty =
 		BindableProperty.Create(nameof(MinimumSpeed), typeof(float), typeof(SlotView), 4.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
@@ -184,24 +76,6 @@ After:
 		BindableProperty.Create(nameof(Delay), typeof(float), typeof(SlotView), 0.0f, propertyChanged: (bindableObject, oldValue, newValue) =>
 		{
 			if (newValue is float delay && bindableObject is SlotView slotView)
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-            {
-                slotView.Invalidate();
-After:
-			{
-				slotView.Invalidate();
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-            {
-                slotView.Invalidate();
-After:
-			{
-				slotView.Invalidate();
-*/
 			{
 				slotView.Slot.Delay = delay;
 				slotView.Invalidate();
@@ -222,127 +96,11 @@ After:
 		BindableProperty.Create(nameof(StopIndex), typeof(int), typeof(SlotView), -1, propertyChanged: (bindableObject, oldValue, newValue) =>
 		{
 			if (newValue is int stopIndex && oldValue is int oldIndex && bindableObject is SlotView slotView)
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-            {
-                slotView.Slot.IsSpinning = IsSpinning;
-                if (IsSpinning && !WasSpinning)
-                {
-                    if (slotView.Delay > 0)
-                    {
-                        {
-                            Task.Delay(TimeSpan.FromMilliseconds(slotView.Delay)).ContinueWith((t) =>
-                            {
-                                _ = slotView.StartAnimation();
-                            });
-                        }
-                    }
-                    else
-                    {
-                        _ = slotView.StartAnimation();
-                    }
-                }
-                else if(IsSpinning && WasSpinning)
-                {
-                    slotView.PauseAnimation();
-                }
-                slotView.Invalidate();
-After:
-			{
-				slotView.Slot.IsSpinning = IsSpinning;
-				if (IsSpinning && !WasSpinning)
-				{
-					if (slotView.Delay > 0)
-					{
-						{
-							Task.Delay(TimeSpan.FromMilliseconds(slotView.Delay)).ContinueWith((t) =>
-							{
-								_ = slotView.StartAnimation();
-							});
-						}
-					}
-					else
-					{
-						_ = slotView.StartAnimation();
-					}
-				}
-				else if (IsSpinning && WasSpinning)
-				{
-					slotView.PauseAnimation();
-				}
-				slotView.Invalidate();
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-            {
-                slotView.Slot.IsSpinning = IsSpinning;
-                if (IsSpinning && !WasSpinning)
-                {
-                    if (slotView.Delay > 0)
-                    {
-                        {
-                            Task.Delay(TimeSpan.FromMilliseconds(slotView.Delay)).ContinueWith((t) =>
-                            {
-                                _ = slotView.StartAnimation();
-                            });
-                        }
-                    }
-                    else
-                    {
-                        _ = slotView.StartAnimation();
-                    }
-                }
-                else if(IsSpinning && WasSpinning)
-                {
-                    slotView.PauseAnimation();
-                }
-                slotView.Invalidate();
-After:
-			{
-				slotView.Slot.IsSpinning = IsSpinning;
-				if (IsSpinning && !WasSpinning)
-				{
-					if (slotView.Delay > 0)
-					{
-						{
-							Task.Delay(TimeSpan.FromMilliseconds(slotView.Delay)).ContinueWith((t) =>
-							{
-								_ = slotView.StartAnimation();
-							});
-						}
-					}
-					else
-					{
-						_ = slotView.StartAnimation();
-					}
-				}
-				else if (IsSpinning && WasSpinning)
-				{
-					slotView.PauseAnimation();
-				}
-				slotView.Invalidate();
-*/
 			{
 				slotView.Invalidate();
 			}
 		});
 
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-    public static readonly new BindableProperty BackgroundColorProperty =
-After:
-	public static readonly new BindableProperty BackgroundColorProperty =
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-    public static readonly new BindableProperty BackgroundColorProperty =
-After:
-	public static readonly new BindableProperty BackgroundColorProperty =
-*/
 	public static readonly BindableProperty DirectionProperty =
 		BindableProperty.Create(nameof(Direction), typeof(SlotDirection), typeof(SlotView), SlotDirection.Down, propertyChanged: (bindableObject, oldValue, newValue) =>
 		{
@@ -616,28 +374,6 @@ After:
 	void UpdateBackground()
 	{
 		if (Slot == null)
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-            return;
-
-        var background = new SolidPaint { Color = BackgroundColor };
-After:
-			return;
-
-		var background = new SolidPaint { Color = BackgroundColor };
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-            return;
-
-        var background = new SolidPaint { Color = BackgroundColor };
-After:
-			return;
-
-		var background = new SolidPaint { Color = BackgroundColor };
-*/
 			return;
 
 		var background = new SolidPaint { Color = BackgroundColor };
@@ -711,32 +447,6 @@ After:
 
 public enum SlotDirection
 {
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-    Up,
-    Down,
-    Left,
-    Right
-After:
-	Up,
-	Down,
-	Left,
-	Right
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-windows10.0.19041.0)'
-Before:
-    Up,
-    Down,
-    Left,
-    Right
-After:
-	Up,
-	Down,
-	Left,
-	Right
-*/
 	Up,
 	Down,
 	Left,

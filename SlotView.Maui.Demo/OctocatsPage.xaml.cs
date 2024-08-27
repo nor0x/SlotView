@@ -2,7 +2,6 @@
 
 public partial class OctocatsPage : ContentPage
 {
-
 	public OctocatsPage()
 	{
 		InitializeComponent();

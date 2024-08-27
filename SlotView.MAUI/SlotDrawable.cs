@@ -61,27 +61,9 @@ public class SlotDrawable : IDrawable
 	internal Action Paused { get; set; }
 
 	public void Draw(ICanvas canvas, RectF dirtyRect)
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-    {
-#if ANDROID
-        canvas.ClipRectangle(dirtyRect);
-After:
 	{
 #if ANDROID
 		canvas.ClipRectangle(dirtyRect);
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-        canvas.SetFillPaint(BackgroundPaint, dirtyRect);
-After:
-		canvas.SetFillPaint(BackgroundPaint, dirtyRect);
-*/
-	{
-#if ANDROID
-        canvas.ClipRectangle(dirtyRect);
 #endif
 		canvas.SetFillPaint(BackgroundPaint, dirtyRect);
 		canvas.FillRectangle(dirtyRect);
@@ -179,24 +161,6 @@ After:
 				}
 			}
 			Invalidate();
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-android)'
-Before:
-        }
-    }
-After:
-		}
-	}
-*/
-
-/* Unmerged change from project 'SlotView.Maui(net8.0-ios)'
-Before:
-        }
-    }
-After:
-		}
-	}
-*/
 		}
 	}
 }
