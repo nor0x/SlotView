@@ -17,18 +17,21 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0-rc.1.23419.4" />
-  </ItemGroup>
-  
-	<!-- NuGet --> 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls"
+			Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility"
+			Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug"
+			Version="8.0.0-rc.1.23419.4" />
+	</ItemGroup>
+
+	<!-- NuGet -->
 	<PropertyGroup>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<AssemblyVersion>0.0.2</AssemblyVersion>
-		<AssemblyFileVersion>0.0.2</AssemblyFileVersion>
-		<Version>0.0.2</Version>
+		<AssemblyVersion>0.0.3</AssemblyVersion>
+		<AssemblyFileVersion>0.0.3</AssemblyFileVersion>
+		<Version>0.0.3</Version>
 		<Title>SlotView.Maui</Title>
 		<PackageId>SlotView.Maui</PackageId>
 		<PackageReleaseNotes>https://github.com/nor0x/SlotView/releases</PackageReleaseNotes>
@@ -46,17 +49,19 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="packageicon.png" Pack="true" PackagePath="\" />
+		<None Include="packageicon.png"
+			Pack="true"
+			PackagePath="\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Platforms\Android\" />
-	  <Folder Include="Platforms\MacCatalyst\" />
-	  <Folder Include="Platforms\Windows\" />
+		<Folder Include="Platforms\Android\" />
+		<Folder Include="Platforms\MacCatalyst\" />
+		<Folder Include="Platforms\Windows\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="..\readme.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 </Project>
