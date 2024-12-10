@@ -6,7 +6,7 @@
     x:Name="self"
     xmlns:local="clr-namespace:SlotView.Maui.Demo"
     FlyoutBackgroundColor="#3d3d3d"
-    Shell.NavBarIsVisible="{OnIdiom Phone=true, Tablet=false, Desktop=false}"
+    Shell.NavBarIsVisible="{OnIdiom Phone=true, Tablet=false, Desktop=true}"
     Shell.FlyoutBehavior="Flyout">
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>

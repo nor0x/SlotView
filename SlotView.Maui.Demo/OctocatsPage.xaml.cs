@@ -1,4 +1,6 @@
-﻿namespace SlotView.Maui.Demo;
+﻿using SlotViewMaui;
+
+namespace SlotView.Maui.Demo;
 
 public partial class OctocatsPage : ContentPage
 {

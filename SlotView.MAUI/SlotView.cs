@@ -8,7 +8,7 @@ using IImage = Microsoft.Maui.Graphics.IImage;
 using System.Collections;
 
 
-namespace SlotView.Maui;
+namespace SlotViewMaui;
 
 public class SlotView : GraphicsView
 {
@@ -301,6 +301,7 @@ public class SlotView : GraphicsView
 		Slot.VisibleCount = VisibleCount;
 		Slot.Delay = Delay;
 		Slot.Duration = Duration;
+		Slot.Direction = Direction;
 
 		SizeChanged += SlotView_SizeChanged;
 		Background = new SolidColorBrush(Colors.Red);

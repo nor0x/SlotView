@@ -56,7 +56,7 @@
 	</ItemGroup>
   
 	<ItemGroup>
-	  <ProjectReference Include="..\SlotView.Maui\SlotView.Maui.csproj" />
+	  <ProjectReference Include="..\SlotView.Maui\SlotViewMaui.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

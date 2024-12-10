@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlotView.Maui.Demo", "SlotView.Maui.Demo\SlotView.Maui.Demo.csproj", "{BE8CA9B2-4947-429D-B282-730F9E5DA649}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlotView.Maui", "SlotView.Maui\SlotView.Maui.csproj", "{7C89B0E2-02C8-49E8-B7C9-AC6256415D36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlotViewMaui", "SlotView.Maui\SlotViewMaui.csproj", "{7C89B0E2-02C8-49E8-B7C9-AC6256415D36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

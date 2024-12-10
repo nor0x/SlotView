@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:sv="clr-namespace:SlotView.Maui;assembly=SlotView.Maui"
+    xmlns:sv="clr-namespace:SlotViewMaui;assembly=SlotViewMaui"
     BackgroundColor="LightGray"
     Shell.NavBarIsVisible="false"
     x:Class="SlotView.Maui.Demo.SlotMachinePage">

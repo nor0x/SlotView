@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.Maui.Platform;
 
-namespace SlotView.Maui;
+namespace SlotViewMaui;
 public static class ImageLoading
 {
 	// thx to https://github.com/Esri/arcgis-maps-sdk-dotnet-samples

@@ -1,6 +1,6 @@
 ﻿using IImage = Microsoft.Maui.Graphics.IImage;
 
-namespace SlotView.Maui;
+namespace SlotViewMaui;
 
 public class SlotDrawable : IDrawable
 {
